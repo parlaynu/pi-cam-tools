@@ -144,7 +144,4 @@ Usage information is:
 By default, images are read from the camera and smoothed with the smoothing algorithm, and a contrast or focus measure
 calculated with the focus algorithm. There are a few available in the code - check the module to find them.
 
-if an `imgdir` is specified, the images are read from disk.
-
-
-
+If an `imgdir` is specified, the images are read from disk.
