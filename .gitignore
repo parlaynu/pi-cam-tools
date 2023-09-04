@@ -1,0 +1,4 @@
+pyenv/
+local/
+
+.DS_Store
