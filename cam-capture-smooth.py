@@ -35,9 +35,11 @@ def main():
 
     # build the pipeline
     pipe = hqlib.camera(mode=args.sensor_mode, preview=args.preview, capture_raw=args.capture_raw)
-    
+
+    # create 3 parallel streams
+    # ... and shallow copy each yielded item so each has its own copy
     p0, p1, p2 = tee(pipe, 3)
-    
+
     p0 = map(dict, p0)
     p1 = map(dict, p1)
     p2 = map(dict, p2)
