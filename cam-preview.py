@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import argparse
+import time
 import hqlib
 
 
@@ -21,6 +22,7 @@ def main():
     )
     
     for i in pipe:
+        time.sleep(5)
         pass
 
 
