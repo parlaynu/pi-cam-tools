@@ -1,10 +1,10 @@
 from pprint import pprint
-import cv2
 
 from picamera2 import Picamera2, Preview
+from libcamera import Transform
 
 
-def camera(*, mode=2, preview=False, capture_raw=False):
+def camera(*, mode=2, video=False, preview=False, capture_raw=False, vflip=False, hflip=False):
 
     print(f"running with sensor mode {mode}")
 
@@ -16,7 +16,7 @@ def camera(*, mode=2, preview=False, capture_raw=False):
     sensor_mode = cam.sensor_modes[mode]
     sensor_format = sensor_mode['format']
     sensor_size = sensor_mode['size']
-        
+
     kwargs = {
         'main': {
             'size': sensor_size,
@@ -38,8 +38,14 @@ def camera(*, mode=2, preview=False, capture_raw=False):
             'size': preview_size
         }
         kwargs['display'] = 'lores'
+    if vflip or hflip:
+        kwargs['transform'] = Transform(vflip=vflip, hflip=hflip)
     
-    config = cam.create_still_configuration(**kwargs)
+    if video:
+        config = cam.create_video_configuration(**kwargs)
+    else:
+        config = cam.create_still_configuration(**kwargs)
+
     cam.align_configuration(config)
     cam.configure(config)
     
@@ -70,4 +76,3 @@ def camera(*, mode=2, preview=False, capture_raw=False):
             i['raw'] = images[1]
         
         yield i
-
