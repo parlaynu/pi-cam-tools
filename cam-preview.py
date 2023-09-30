@@ -13,9 +13,9 @@ def main():
     args = parser.parse_args()
 
     pipe = hqlib.camera(
+        preview=True, 
         mode=args.mode, 
         video=args.video, 
-        preview=True, 
         vflip=args.vflip,
         hflip=args.hflip
     )
