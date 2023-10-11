@@ -18,17 +18,23 @@ def camera(*, mode=2, video=False, preview=False, capture_raw=False, vflip=False
     sensor_size = sensor_mode['size']
 
     kwargs = {
+        'buffer_count': 2,
+        'controls': {
+            'FrameDurationLimits': (33333, 500000)
+        },
         'main': {
             'size': sensor_size,
             'format': 'RGB888'
         },
         'queue': False
     }
+    
     if capture_raw:
         kwargs['raw'] = {
             'size': sensor_size,
             'format': str(sensor_format)
         }
+        
     if preview:
         preview_size = (1920, 1080)
         if preview_size[0] > sensor_size[0] or preview_size[1] > sensor_size[1]:
@@ -38,6 +44,7 @@ def camera(*, mode=2, video=False, preview=False, capture_raw=False, vflip=False
             'size': preview_size
         }
         kwargs['display'] = 'lores'
+
     if vflip or hflip:
         kwargs['transform'] = Transform(vflip=vflip, hflip=hflip)
     

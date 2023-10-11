@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 import argparse
 import time
+from pprint import pprint
+
 import hqlib
 
 
@@ -13,16 +15,16 @@ def main():
     args = parser.parse_args()
 
     pipe = hqlib.camera(
+        preview=True, 
         mode=args.mode, 
         video=args.video, 
-        preview=True, 
         vflip=args.vflip,
         hflip=args.hflip
     )
     
     for i in pipe:
-        time.sleep(5)
-        pass
+        time.sleep(15)
+        pprint(i['metadata'])
 
 
 if __name__ == "__main__":
