@@ -16,14 +16,23 @@ def camera(*, mode=2, video=False, preview=False, capture_raw=False, vflip=False
     sensor_mode = cam.sensor_modes[mode]
     sensor_format = sensor_mode['format']
     sensor_size = sensor_mode['size']
+    
+    main_size = sensor_size
+
+    # take special care with size if we're previewing
+    preview_size = None
+    if preview:
+        preview_size = (1920, 1080)
+        if main_size[0] < preview_size[0] or main_size[1] < preview_size[1]:
+            main_size = preview_size
 
     kwargs = {
         'buffer_count': 2,
         'controls': {
-            'FrameDurationLimits': (33333, 500000)
+            'FrameDurationLimits': (33333, 500000),
         },
         'main': {
-            'size': sensor_size,
+            'size': main_size,
             'format': 'RGB888'
         },
         'queue': False
@@ -36,10 +45,6 @@ def camera(*, mode=2, video=False, preview=False, capture_raw=False, vflip=False
         }
         
     if preview:
-        preview_size = (1920, 1080)
-        if preview_size[0] > sensor_size[0] or preview_size[1] > sensor_size[1]:
-            preview_size = sensor_size
-        
         kwargs['lores'] = {
             'size': preview_size
         }
@@ -66,7 +71,7 @@ def camera(*, mode=2, video=False, preview=False, capture_raw=False, vflip=False
     arrays = ['main']
     if capture_raw:
         arrays.append('raw')
-
+    
     while True:
         # capture the image and metadata
         images, metadata = cam.capture_arrays(arrays)
