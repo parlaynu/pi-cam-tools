@@ -1,13 +1,10 @@
-# Pi HQCamera Utils
+# PiCamera Utils
 
-Some utilities for working with a Pi HQ Camera. They're pretty basic at the moment, but I've
-found them useful.
+Some utilities for working with RaspberryPi cameras with the picamera2 python library.
 
 The tools all work by creating a processing pipeline using python's generator functions and then
 iterating over the output to activate the processing. It's a pretty simple way to put things 
 together and I've found it easy to understand and extend.
-
-Haven't tried them with the module 2 and 3 cameras.
 
 The tools include:
 
