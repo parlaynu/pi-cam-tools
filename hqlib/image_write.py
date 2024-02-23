@@ -16,10 +16,13 @@ def image_writer(input, odir, *, save_orig=False):
         camera_id, camera_mode = i['camera_id'], i['camera_mode']
         metadata = i['metadata']
 
-        mdprefix = os.path.join(odir, f"img-{idx:04d}")
-        _save_metadata(mdprefix, metadata)
-
         exif = _generate_exif(metadata, camera_id=camera_id)
+
+        # save the metadata - add in the image resolution
+        mdprefix = os.path.join(odir, f"img-{idx:04d}")
+        height, width, channels = i['image'].shape
+        metadata['Resolution'] = [width, height, channels]
+        _save_metadata(mdprefix, metadata)
 
         for k, image in i.items():
             if not isinstance(image, np.ndarray):
