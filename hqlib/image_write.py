@@ -38,8 +38,6 @@ def image_writer(input, odir, *, save_orig=False):
                 impath = _save_raw(impath, image)
 
             else:
-                # all the save methods expect 'RGB' not the 'BGR' of opencv
-                image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) 
                 impath = _save_jpg(impath, image, exif=exif)
 
             newi = i.copy()
@@ -70,6 +68,7 @@ def _generate_exif(metadata, *, camera_id=None):
 def _save_jpg(impath, image, *, quality=95, exif=None):
     impath += ".jpg"
 
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) 
     image = Image.fromarray(image)
     image.save(impath, quality=quality, exif=exif)
     
@@ -79,6 +78,7 @@ def _save_jpg(impath, image, *, quality=95, exif=None):
 def _save_png(impath, image, *, compress_level=6, exif=None):
     impath += ".png"
     
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) 
     image = Image.fromarray(image)
     image.save(impath, compress_level=compress_level, exif=exif)
     
