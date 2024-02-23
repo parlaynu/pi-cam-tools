@@ -26,7 +26,7 @@ def main():
     # build the pipeline
     pipe = hqlib.camera(args.camera, mode=args.sensor_mode, preview=args.preview, capture_raw=args.capture_raw)
     pipe = hqlib.click_capture(pipe, verbose=args.verbose)
-    pipe = hqlib.image_writer(pipe, capdir, save_all=False)
+    pipe = hqlib.image_writer(pipe, capdir)
 
     # and run...
     for idx, i in enumerate(pipe):

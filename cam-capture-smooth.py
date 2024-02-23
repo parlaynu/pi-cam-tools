@@ -54,7 +54,7 @@ def main():
 
     pipe = join(p0, p1, p2)
     
-    pipe = hqlib.image_writer(pipe, capdir, save_all=True)
+    pipe = hqlib.image_writer(pipe, capdir)
 
     # and run...
     for i in islice(pipe, args.num_images):

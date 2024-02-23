@@ -80,7 +80,6 @@ def camera(camid, *, mode=2, video=False, preview=False, capture_raw=False, vfli
             'camera_id': cam.camera.id,
             'camera_mode': mode,
             'image':images[0],
-            'orig': images[0],
             'metadata': metadata
         }
 

@@ -9,43 +9,40 @@ import numpy as np
 from PIL import Image
 
 
-def image_writer(input, odir, *, save_all=True):
+def image_writer(input, odir, *, save_orig=False):
 
     for idx, i in enumerate(input):
                 
         camera_id, camera_mode = i['camera_id'], i['camera_mode']
         metadata = i['metadata']
-            
+
+        mdprefix = os.path.join(odir, f"img-{idx:04d}")
+        _save_metadata(mdprefix, metadata)
+
         exif = _generate_exif(metadata, camera_id=camera_id)
-        
-        saved = []
+
         for k, image in i.items():
             if not isinstance(image, np.ndarray):
                 continue
 
-            # all the save methods expect 'RGB' not the 'BGR' of opencv
-            image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) 
+            if k.startswith('orig_') and save_orig==False:
+                continue
 
             # generate the image path prefix
             impath = os.path.join(odir, f"img-{idx:04d}-{k}")
 
             if k == 'raw':
-                impath = _save_raw(impath, image, metadata=metadata, camera_mode=camera_mode)
-                
-            else:
-                if save_all == False:
-                    found = any(np.array_equal(image, i) for i in saved)
-                    if found:
-                        continue
-                    
-                impath = _save_jpg(impath, image, exif=exif)
-                saved.append(image)
-            
-            newi = dict(i)
-            newi['image_path'] = impath
-            
-            yield newi
+                impath = _save_raw(impath, image)
 
+            else:
+                # all the save methods expect 'RGB' not the 'BGR' of opencv
+                image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) 
+                impath = _save_jpg(impath, image, exif=exif)
+
+            newi = i.copy()
+            newi['image_path'] = impath
+
+            yield newi
 
 
 def _generate_exif(metadata, *, camera_id=None):
@@ -85,9 +82,25 @@ def _save_png(impath, image, *, compress_level=6, exif=None):
     return impath
 
 
-def _save_raw(impath, image, *, metadata, camera_mode):
+def _save_raw(impath, image):
     impath += ".dat"
     image.tofile(impath)
     
     return impath
+
+
+def _save_metadata(mdpath, metadata):
+    mdpath += ".yaml"
+    
+    with open(mdpath, "w") as f:
+        for k in sorted(metadata):
+            md = metadata[k]
+            if isinstance(md, (tuple, list)):
+                print(f"{k}:", file=f)
+                for m in md:
+                    print(f"- {m}", file=f)
+            else:
+                print(f"{k}: {md}", file=f)
+    
+    return mdpath
 

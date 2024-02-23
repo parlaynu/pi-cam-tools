@@ -2,7 +2,7 @@
 def roi(input, percent):
     
     for i in input:
-        im = i['image']
+        im = i['orig_image'] = i[key]
         
         ishape = im.shape
         
