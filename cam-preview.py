@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+import os
+os.environ['LIBCAMERA_LOG_LEVELS'] = "*:WARN"
+
 import argparse
 import time
 from pprint import pprint
@@ -8,6 +11,7 @@ import hqlib
 
 def main():
     parser = argparse.ArgumentParser()
+    parser.add_argument('-c', '--camera', help='the camera to query', type=int, default=0)
     parser.add_argument('-m', '--mode', help='the display mode', type=int, default=7)
     parser.add_argument('-v', '--video', help='video use case', action='store_true')
     parser.add_argument('--vflip', help='flip the image vertically', action='store_true')
@@ -15,6 +19,7 @@ def main():
     args = parser.parse_args()
 
     pipe = hqlib.camera(
+        args.camera,
         preview=True, 
         mode=args.mode, 
         video=args.video, 

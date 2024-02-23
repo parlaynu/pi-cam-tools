@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-import os, time
+import os
+os.environ['LIBCAMERA_LOG_LEVELS'] = "*:WARN"
+
+import time
 import argparse
 from itertools import islice
 
@@ -8,6 +11,7 @@ import hqlib
 
 def main():
     parser = argparse.ArgumentParser()
+    parser.add_argument('-c', '--camera', help='the camera to query', type=int, default=0)
     parser.add_argument('-p', '--preview', help='run the preview', action='store_true')
     parser.add_argument('-m', '--sensor-mode', help='the sensor mode for the camera (default: 2)', type=int, default=2)
     parser.add_argument('-r', '--capture-raw', help='capture raw images as well as the jpeg', action='store_true')
@@ -21,7 +25,7 @@ def main():
     os.makedirs(capdir)
 
     # build the pipeline
-    pipe = hqlib.camera(mode=args.sensor_mode, preview=args.preview, capture_raw=args.capture_raw)
+    pipe = hqlib.camera(args.camera, mode=args.sensor_mode, preview=args.preview, capture_raw=args.capture_raw)
     pipe = hqlib.delay(pipe, value=args.delay)
     pipe = hqlib.image_writer(pipe, capdir, save_all=False)
 

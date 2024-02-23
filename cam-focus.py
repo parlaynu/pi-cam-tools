@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+import os
+os.environ['LIBCAMERA_LOG_LEVELS'] = "*:WARN"
+
 import argparse
 import importlib
 
@@ -18,6 +21,7 @@ def create_callable(name):
 
 def main():
     parser = argparse.ArgumentParser()
+    parser.add_argument('-c', '--camera', help='the camera to query', type=int, default=0)
     parser.add_argument('-r', '--roi', help='centre percentage of image to use (default: 25)', type=int, default=25)
     parser.add_argument('-s', '--smooth-alg', help='the smoothing algorithm (default: hqlib.bilateral)', type=str, default="hqlib.bilateral")
     parser.add_argument('-f', '--focus-alg', help='the focus measure algorithm (default: hqlib.var_of_laplacian)', type=str, default="hqlib.var_of_laplacian")
@@ -27,7 +31,7 @@ def main():
     # build the pipeline
     
     if args.imgdir is None:
-        pipe = hqlib.camera(preview=True)
+        pipe = hqlib.camera(args.camera, preview=True)
     else:
         pipe = hqlib.image_reader(args.imgdir, recurse=True, sort=True)
     

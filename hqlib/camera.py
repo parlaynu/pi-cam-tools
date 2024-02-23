@@ -4,11 +4,11 @@ from picamera2 import Picamera2, Preview
 from libcamera import Transform
 
 
-def camera(*, mode=2, video=False, preview=False, capture_raw=False, vflip=False, hflip=False):
+def camera(camid, *, mode=2, video=False, preview=False, capture_raw=False, vflip=False, hflip=False):
 
     print(f"running with sensor mode {mode}")
 
-    cam = Picamera2()
+    cam = Picamera2(camid)
     for idx, sensor_mode in enumerate(cam.sensor_modes):
         print(f"sensor mode {idx}:")
         pprint(sensor_mode)
