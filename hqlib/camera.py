@@ -27,7 +27,7 @@ def camera(camid, *, mode=2, video=False, preview=False, capture_raw=False, vfli
             main_size = preview_size
 
     kwargs = {
-        'buffer_count': 2,
+        # 'buffer_count': 2,
         # 'controls': {
         #     'FrameDurationLimits': (33333, 500000),
         # },
