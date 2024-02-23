@@ -9,15 +9,15 @@ def camera(camid, *, mode=2, video=False, preview=False, capture_raw=False, vfli
     print(f"running with sensor mode {mode}")
 
     cam = Picamera2(camid)
-    for idx, sensor_mode in enumerate(cam.sensor_modes):
-        print(f"sensor mode {idx}:")
-        pprint(sensor_mode)
+    # for idx, sensor_mode in enumerate(cam.sensor_modes):
+    #     print(f"sensor mode {idx}:")
+    #     pprint(sensor_mode)
     
     sensor_mode = cam.sensor_modes[mode]
-    sensor_format = sensor_mode['format']
-    sensor_size = sensor_mode['size']
+    raw_format = sensor_mode['unpacked']
+    raw_size = sensor_mode['size']
     
-    main_size = sensor_size
+    main_size = raw_size
 
     # take special care with size if we're previewing
     preview_size = None
@@ -28,9 +28,9 @@ def camera(camid, *, mode=2, video=False, preview=False, capture_raw=False, vfli
 
     kwargs = {
         'buffer_count': 2,
-        'controls': {
-            'FrameDurationLimits': (33333, 500000),
-        },
+        # 'controls': {
+        #     'FrameDurationLimits': (33333, 500000),
+        # },
         'main': {
             'size': main_size,
             'format': 'RGB888'
@@ -40,8 +40,8 @@ def camera(camid, *, mode=2, video=False, preview=False, capture_raw=False, vfli
     
     if capture_raw:
         kwargs['raw'] = {
-            'size': sensor_size,
-            'format': str(sensor_format)
+            'size': raw_size,
+            'format': str(raw_format)
         }
         
     if preview:
