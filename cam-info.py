@@ -9,7 +9,8 @@ from picamera2 import Picamera2
 
 def print_dict(data):
     maxk = max([len(k) for k in data.keys()])
-    for k, v in data.items():
+    for k in sorted(data.keys()):
+        v = data[k]
         print(f"    {k:>{maxk}}: {v}")
 
 
@@ -27,6 +28,9 @@ def camera_info(cam_id):
     
     still_cfg = picam2.create_still_configuration()
     picam2.configure(still_cfg)
+
+    cam_properties = picam2.camera_properties.copy()
+    cam_controls = picam2.camera_controls.copy()
 
     preview_cfg = picam2.create_preview_configuration()
     picam2.configure(preview_cfg)
