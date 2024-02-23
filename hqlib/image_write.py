@@ -97,6 +97,9 @@ def _save_metadata(mdpath, metadata):
     
     with open(mdpath, "w") as f:
         for k in sorted(metadata):
+            if k == "PispStatsOutput":
+                continue
+            
             md = metadata[k]
             if isinstance(md, (tuple, list)):
                 print(f"{k}:", file=f)
