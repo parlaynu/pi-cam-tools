@@ -28,10 +28,15 @@ def main():
     )
     
     for idx, i in enumerate(pipe):
-        if idx % 2 == 0:
-            continue
-        pprint(i['metadata'])
-        time.sleep(15)
+        print("--------------------------")
+        metadata = i['metadata']
+        for key in sorted(metadata.keys()):
+            if key == "PispStatsOutput":
+                continue
+            print(f"{key}: {metadata[key]}")
+        time.sleep(2)
+
+
 
 
 if __name__ == "__main__":
