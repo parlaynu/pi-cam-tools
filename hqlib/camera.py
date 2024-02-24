@@ -1,7 +1,7 @@
 from pprint import pprint
 
 from picamera2 import Picamera2, Preview
-from libcamera import Transform
+from libcamera import Transform, controls
 
 
 def camera(camid, *, mode=2, video=False, preview=False, capture_raw=False, vflip=False, hflip=False):
@@ -61,9 +61,20 @@ def camera(camid, *, mode=2, video=False, preview=False, capture_raw=False, vfli
     cam.align_configuration(config)
     cam.configure(config)
     
+    print("camera properties:")
+    pprint(cam.camera_properties)
+    
+    print("camera controls:")
+    pprint(cam.camera_controls)
+
     print("camera config:")
     pprint(cam.camera_config)
     
+    # set some controls
+    # cam.set_controls({
+    #     "AwbMode": controls.AwbModeEnum.Daylight,
+    # })
+        
     if preview:
         cam.start_preview(Preview.DRM, width=1920, height=1080)
     cam.start()
