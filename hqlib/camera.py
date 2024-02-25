@@ -70,14 +70,20 @@ def camera(camid, *, mode=2, video=False, preview=False, capture_raw=False, vfli
     print("camera config:")
     pprint(cam.camera_config)
     
-    # set some controls
-    # cam.set_controls({
-    #     "AwbMode": controls.AwbModeEnum.Daylight,
-    # })
+    # set some autofocus controls
+    if cam.camera_controls.get('AfMode', None):
+        cam.set_controls({
+            "AfMode": controls.AfModeEnum.Auto,
+        })
         
     if preview:
         cam.start_preview(Preview.DRM, width=1920, height=1080)
     cam.start()
+
+    # run the autofocus
+    if cam.camera_controls.get('AfMode', None):
+        result = cam.autofocus_cycle()
+        print(f"autofocus: {result}")
     
     arrays = ['main']
     if capture_raw:
