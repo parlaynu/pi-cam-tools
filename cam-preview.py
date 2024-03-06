@@ -1,7 +1,4 @@
 #!/usr/bin/env python3
-import os
-os.environ['LIBCAMERA_LOG_LEVELS'] = "*:WARN"
-
 import argparse
 import time
 from pprint import pprint
@@ -31,7 +28,7 @@ def main():
         print("--------------------------")
         metadata = i['metadata']
         for key in sorted(metadata.keys()):
-            if key == "PispStatsOutput":
+            if key == "PispStatsOutput" or key == "Bcm2835StatsOutput":
                 continue
             print(f"{key}: {metadata[key]}")
         time.sleep(2)
