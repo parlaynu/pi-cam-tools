@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import os
-os.environ['LIBCAMERA_LOG_LEVELS'] = "*:WARN"
+os.environ['LIBCAMERA_LOG_LEVELS'] = "*:ERROR"
 
 import argparse
 from pprint import pprint

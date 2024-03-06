@@ -1,3 +1,6 @@
+import os
+os.environ['LIBCAMERA_LOG_LEVELS'] = "*:ERROR"
+
 from pprint import pprint
 
 from picamera2 import Picamera2, Preview

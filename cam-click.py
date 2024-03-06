@@ -1,7 +1,4 @@
 #!/usr/bin/env python3
-import os
-os.environ['LIBCAMERA_LOG_LEVELS'] = "*:WARN"
-
 import time
 import argparse
 from itertools import islice
