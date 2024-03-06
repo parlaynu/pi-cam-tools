@@ -28,7 +28,7 @@ def main():
         print("--------------------------")
         metadata = i['metadata']
         for key in sorted(metadata.keys()):
-            if key == "PispStatsOutput" or key == "Bcm2835StatsOutput":
+            if key.endswith("StatsOutput"):
                 continue
             print(f"{key}: {metadata[key]}")
         time.sleep(2)
