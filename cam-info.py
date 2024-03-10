@@ -80,7 +80,7 @@ def main():
     else:
         cameras = Picamera2.global_camera_info()
         for camera in cameras:
-            cam_id = camera['Num']
+            cam_id = camera.get('Num', 0)
         
             print("------------------------------------------------")
             print(f"Camera {cam_id}")
