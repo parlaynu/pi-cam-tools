@@ -14,7 +14,7 @@ The tools include:
 | cam-preview.py | starts the camera with a preview output                       |
 | cam-capture.py | captures a sequence of images to disk                         |
 | cam-click.py   | uses a flirc usb receiver to trigger image captures           |
-| cam-focus.py   | runs an autofocus algorithm from live camera or image files   |
+| cam-focus.py   | runs an autofocus algorithm from live camera or image files.. a work in progress   |
 
 ## Setup
 
